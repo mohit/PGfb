@@ -33,9 +33,10 @@ function updateIcon() {
      current = min;
 }
 
-  chrome.browserAction.onClicked.addListener(updateIcon);
-  updateIcon();
-function encrypt(plainText, pubKey)
+chrome.browserAction.onClicked.addListener(updateIcon);
+updateIcon();
+
+  function encrypt(plainText, pubKey)
 {
     var pu = new getPublicKey(pubKey);
     if(pu.vers == -1) return;
