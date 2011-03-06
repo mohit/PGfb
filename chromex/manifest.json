@@ -1,15 +1,11 @@
 {
-  "name": "Password Domain Reminder",
-  "version": "0.1",
-  "description": "Shows target domain when password is entered.",
-
-  "background_page": "background.html",
-  
-  "content_scripts": [{
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["jquery-1.4.2.min.js", "content_script.js"]
-  }],
+  "name": "PGfb",
+  "version": ".1",
+  "description": "Secure facebook communication using PGP.",
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
   "permissions": [
-    "notifications"
+    "http://developer.facebook.com/"
   ]
 }
