@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function onRequest(request, sender, sendResponse) {
+        var notification = webkitNotifications.createNotification(
+            'favicon.png',  // icon url - can be relative
+            'Password will be sent to:',  // notification title
+            request.protocol + "//" + request.domain  // notification body text
+        );
+        notification.show();
+        setTimeout("notification.cancel()", 5000);
+        sendResponse({});
+      };
+
+      // Listen for the content script to send a message to the background page.
+      chrome.extension.onRequest.addListener(onRequest);
+    </script>
+  </head>
+</html>
