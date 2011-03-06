@@ -6,7 +6,11 @@
     "default_icon": "icon.png",
     "popup": "popup.html"
   },
+  "content_scripts": [{
+      "matches": ["http://*/*"],
+      "js": ["lib/jquery-1.4.2.min.js", "content_script.js", "lib/fb.all.js"]
+  }],
   "permissions": [
-    "http://developer.facebook.com/"
+    "http://*.facebook.com/"
   ]
 }
