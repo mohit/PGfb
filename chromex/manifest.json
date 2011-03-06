@@ -3,7 +3,7 @@
   "version": "1",
   "description": "Secure facebook communication using PGP.",
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "favicon.png",
     "popup": "popup.html"
   },
   "content_scripts": [{
@@ -11,6 +11,11 @@
       "js": ["lib/jquery-1.4.2.min.js", "content_script.js", "lib/fb.all.js"]
   }],
   "permissions": [
-    "http://*.facebook.com/"
-  ]
+    "http://*.facebook.com/",
+    "http://developer.facebook.com/"
+  ],
+	"content_scripts": [{
+		"matches": ["http://www.facebook.com/*", "https://www.facebook.com/*"],
+		"js": ["lib/jquery-1.4.2.min.js", "content_script.js"]
+	}]
 }
