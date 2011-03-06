@@ -1,8 +1,65 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script>
+<head>
+<style>
 
-    </script>
-  </head>
+</style>
+<script src="lib/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="lib/base64.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/aes-enc.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/mouse.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/rsa.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/sha1.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/PGpubkey.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/PGencode.js" type="text/javascript" charset="utf-8"></script>
+<script>
+$(function() {
+  $('#encrypt-button').click(function () {
+      $('#cipher-text').val(encrypt($('#plain-text').val(), $('#public-key').val()));
+      $('#decrypted-plain-text').val(decrypt($('#cipher-text').val(), $('#private-key').val()));
+  });
+});
+
+
+function encrypt(plainText, pubKey)
+{
+    var pu = new getPublicKey(pubKey);
+    if(pu.vers == -1) return;
+    if(pu.keyid.length != 16)
+    {
+        alert('Invalid Key Id');
+        return;
+    } 
+
+    var keyType = -1;
+    if(pu.type == 'ELGAMAL') keyType = 1;
+    if(pu.type == 'RSA')     keyType = 0;
+    if(keyType == -1)
+    {
+        alert('Unsupported Key Type');
+        return;
+    } 
+
+    var startTime=new Date();
+
+    var pubkey = pu.pkey.replace(/\n/g,'');
+    cipherText = doEncrypt(pu.keyid, keyType, pubkey, plainText);
+    var endTime=new Date();
+    var secondsToEncrypt = (endTime.getTime()-startTime.getTime())/1000.0;
+    return cipherText;
+}
+
+
+
+</script>
+</head>
+<body>
+  <h1>Pretty Good Facebook</h1>
+  Public Key:<textarea id="public-key"></textarea> 
+  Plain Text:<textarea id="plain-text"></textarea>
+  <input id="encrypt-button" type="submit" text="Encrypt"/>
+  Cipher Text:<textarea id="cipher-text"></textarea>
+  Decrypted Plain Text:<textarea id="decrypted-plain-text"></textarea>
+</body>
 </html>

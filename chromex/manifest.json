@@ -1,9 +1,10 @@
 {
   "name": "PGfb",
-  "version": ".1",
+  "version": "1",
   "description": "Secure facebook communication using PGP.",
   "browser_action": {
-    "default_icon": "icon.png"
+    "default_icon": "icon.png",
+    "popup": "popup.html"
   },
   "permissions": [
     "http://developer.facebook.com/"
