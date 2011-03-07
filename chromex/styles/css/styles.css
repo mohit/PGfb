@@ -1,8 +1,13 @@
 body {
     font-family: Helvetica Neue;
-    font-size:50px;
 }
 *{
-color:#fff;
-background:#000;
+    background:#3B5998;
+    color:#fff;
+}
+#password, #encrypt-button{
+}
+textarea{
+    border-color: #1D2A5B;
+    background:#fff;
 }
