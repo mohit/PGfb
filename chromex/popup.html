@@ -1,100 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-
-</style>
-<script src="lib/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
-
-<script src="lib/base64.js" type="text/javascript" charset="utf-8"></script>
-<script src="lib/aes-enc.js" type="text/javascript" charset="utf-8"></script>
-<script src="lib/mouse.js" type="text/javascript" charset="utf-8"></script>
-<script src="lib/rsa.js" type="text/javascript" charset="utf-8"></script>
-<script src="lib/sha1.js" type="text/javascript" charset="utf-8"></script>
-<script src="lib/PGpubkey.js" type="text/javascript" charset="utf-8"></script>
-<script src="lib/PGencode.js" type="text/javascript" charset="utf-8"></script>
-<script src="lib/cast5.js" type="text/javascript" charset="utf-8"></script>
-<script src="lib/PGdecode.js" type="text/javascript" charset="utf-8"></script>
-<script>
-$(function() {
-  $('#encrypt-button').click(function () {
-      $('#cipher-text').val(encrypt($('#plain-text').val(), $('#public-key').val()));
-      $('#decrypted-plain-text').val(decrypt($('#cipher-text').val(), $('#private-key').val()));
-  });
-});
-
-
-function encrypt(plainText, pubKey)
-{
-    var pu = new getPublicKey(pubKey);
-    if(pu.vers == -1) return;
-    if(pu.keyid.length != 16)
-    {
-        alert('Invalid Key Id');
-        return;
-    } 
-
-    var keyType = -1;
-    if(pu.type == 'ELGAMAL') keyType = 1;
-    if(pu.type == 'RSA')     keyType = 0;
-    if(keyType == -1)
-    {
-        alert('Unsupported Key Type');
-        return;
-    } 
-
-    var startTime=new Date();
-
-    var pubkey = pu.pkey.replace(/\n/g,'');
-    cipherText = doEncrypt(pu.keyid, keyType, pubkey, plainText);
-    var endTime=new Date();
-    var secondsToEncrypt = (endTime.getTime()-startTime.getTime())/1000.0;
-    return cipherText;
-}
-
-var dk = [128,117321189,18973914,33806718,191041423,212731258,257744397,165504645,235740372,103051507,84724582,49096758,203327270,171453928,4681102,192794334,97308649,161987117,61527818,116468791,223996393,211212176,15581442,192179226,212854286,47965185,268022319,3974140,99630517,82133910,110142404,37577773,122969063,97767888,194753943,207506120,193725559,3504];
-var pk = [64,263222615,21165572,157614341,27429880,174136671,71223137,3428463,104433503,86420892,125770948,73466158,62778228,46718461,253634522,157306245,21067592,241720933,161578316,205];
-var qk = [64,50815423,165232922,267454723,12813238,189719488,234561251,99991942,187323421,162523823,28713674,56719242,4368150,5526297,29781276,180857039,184076945,149613395,178203705,218];
-var uk = [64,24371462,22264137,103800731,164959896,92001016,206754966,102241993,178652364,90681542,212152536,41770206,78895575,191159821,144316539,188391086,122503310,112090363,96471820,179];
-var seskey = '';
-
-function decrypt(cipherText, privateKey)
-{
-    var startTime=new Date();
-    /* var result = doDecrypt(pk, qk, dk, uk, privateKey);
-    $.each(result.split('\n'), function (key, line) {
-         if (line.indexOf('SK-d') != -1) {
-            dk =  line.substring(5).split(',');
-         }
-         if (line.indexOf('SK-p') != -1) {
-            pk =  line.substring(5).split(',');
-         }
-         if (line.indexOf('SK-q') != -1) {
-            qk =  line.substring(5).split(',');
-         }
-         if (line.indexOf('SK-u') != -1) {
-            uk =  line.substring(5).split(',');
-         }
-    });*/
- 
-    var plainText = doDecrypt(pk, qk, dk, uk, cipherText);
-    var endTime=new Date();
-    var secondsToDecrypt = (endTime.getTime()-startTime.getTime())/1000.0;
-    return plainText;
-}
-
-
-
-
-</script>
+    <link href="/styles/css/styles.css" rel="stylesheet" type="text/css">
+    <script src="lib/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/base64.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/aes-enc.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/mouse.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/rsa.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/sha1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/PGpubkey.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/PGencode.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/cast5.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/PGdecode.js" type="text/javascript" charset="utf-8"></script>
+    <script src="scripts/pgfb.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
   <h1>Pretty Good Facebook</h1>
-  Public Key:<textarea id="public-key"></textarea> 
-  Private Key:<textarea id="private-key"></textarea> 
-  Plain Text:<textarea id="plain-text">Test</textarea>
+  Public Key:<textarea id="public-key"></textarea>
+  Plain Text:<textarea id="plain-text"></textarea>
+  <input id="encrypt-button" type="submit" value="Encrypt"/>
+  <br/>
   Cipher Text:<textarea id="cipher-text"></textarea>
+  Private Key: <textarea id="private-key"></textarea>
+  Password: <input id="password"></input>
   Decrypted Plain Text:<textarea id="decrypted-plain-text"></textarea>
-  <input id="encrypt-button" type="submit" text="Encrypt"/>
+  <input id="decrypt-button" type="submit" value="Decrypt"/>
 </body>
 </html>
