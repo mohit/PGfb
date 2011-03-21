@@ -1,11 +1,11 @@
 $(function() {
-  $('#encrypt-button').click(function () {
-      $('#cipher-text').val(encrypt($('#plain-text').val(), $('#public-key').val()));
-  });
+    $('#encrypt-button').click(function () {
+        $('#cipher-text').val(encrypt($('#plain-text').val(), $('#public-key').val()));
+    });
   
-  $('#decrypt-button').click(function () {
-     $('#decrypted-plain-text').val(decrypt($('#cipher-text').val(), $('#private-key').val(), $('#password'.val())); 
-  });
+    $('#decrypt-button').click(function () {
+        $('#decrypted-plain-text').val(decrypt($('#cipher-text').val(), $('#private-key').val(), $('#password').val()));
+    });
 });
 
 var min = 1;
@@ -13,7 +13,7 @@ var max = 2;
 var current = min;
 
 function updateIcon() {
-  chrome.browserAction.setIcon({path:"icon" + current + ".png"});
+  chrome.browserAction.setIcon({path:"icon" + current + ".;"});
   current++;
   if (current > max)
      current = min;
@@ -50,28 +50,20 @@ function encrypt(plainText, pubKey)
     return cipherText;
 }
 
-/* Not working yet */
+var dk = [];
+var pk = [];
+var qk = [];
+var uk = [];
+var seskey = '';
+
+
+/* Doesn't work with keys generated on Mac OS X, not sure why. */
 function decrypt(cipherText, privateKey, password)
 {
     var startTime=new Date();
-    /* var result = doDecrypt(pk, qk, dk, uk, privateKey);
-    $.each(result.split('\n'), function (key, line) {
-         if (line.indexOf('SK-d') != -1) {
-            dk =  line.substring(5).split(',');
-         }
-         if (line.indexOf('SK-p') != -1) {
-            pk =  line.substring(5).split(',');
-         }
-         if (line.indexOf('SK-q') != -1) {
-            qk =  line.substring(5).split(',');
-         }
-         if (line.indexOf('SK-u') != -1) {
-            uk =  line.substring(5).split(',');
-         }
-    });*/
- 
+    var result = doDecrypt(pk, qk, dk, uk, privateKey);
     var plainText = doDecrypt(pk, qk, dk, uk, cipherText);
     var endTime=new Date();
-    var secondsToDecrypt = (endTime.getTime()-startTime.getTime())/1000.0;
+    var secondsToDecrypt = (endTime.getTime()-startTime.getTime())/1000.0; 
     return plainText;
 }
