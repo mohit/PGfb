@@ -20,3 +20,6 @@ PGfb consists of a Facebook application and a Chrome Extension. It uses the Java
 
 * ...
  
+# License
+
+Released under the (BSD License)[http://creativecommons.org/licenses/BSD/]
