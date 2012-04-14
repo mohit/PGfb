@@ -32,9 +32,13 @@
 </script>
     <script type="text/javascript" charset="utf-8">
 $(function() {
-      var keys = localStorage['keypairs'];
-      if (keys && keys.length > 0) {
-        $('#your-key-id').text(keys[0]['keyId']);
+      openpgp.init();
+      
+      //console.log(openpgp.keyring);
+      
+      if (openpgp.keyring.publicKeys.length > 0) {
+        var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
+        $('#your-key-id').text(keyid);
       }
       else {
         $('#your-key').hide();
@@ -44,17 +48,82 @@ $(function() {
       
       $('#public-key-form').submit(function() {
         var keyString = $('#public-key').val();
+        
+        openpgp.keyring.importPublicKey(keyString);
+        openpgp.keyring.store();
         return false;
       });
       
       $('#cancel').click(function(event) {
         console.log('cancel');
+        var keyString = $('#public-key').val();
+        
+        openpgp.keyring.importPublicKey(keyString);
         return false;
       });
     });
     </script>
-    <script src="js/bootstrap.js" type="text/javascript" charset="utf-8">
-</script>
+    <script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- GPG4Browsers scripts -->	
+    
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/hash/sha.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/hash/md5.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/hash/ripe-md.js"></script>
+
+    <!-- crypto libs -->	
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/symmetricencryption/aes.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/symmetricencryption/cast5.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/symmetricencryption/dessrc.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/symmetricencryption/twofish.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/symmetricencryption/blowfish.js"></script>
+
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/asymetricencryption/jsbn.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/asymetricencryption/jsbn2.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/asymetricencryption/dsa.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/asymetricencryption/elgamal.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/asymetricencryption/rsa.js"></script>
+
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/openpgp.crypto.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/ciphers/openpgp.cfb.js"></script>
+
+    <!-- compression -->
+
+    <!-- encoding -->
+    <script type="text/javascript" src="js/gpg4b-js/encoding/base64.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/encoding/openpgp.encoding.asciiarmor.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/encoding/openpgp.encoding.js"></script>
+
+    <!-- openpgp types -->
+    <script type="text/javascript" src="js/gpg4b-js/type/openpgp.type.keyid.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/type/openpgp.type.mpi.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/type/openpgp.type.s2k.js"></script>
+
+    <!-- openpgp packets -->
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.compressed.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.encrypteddata.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.encryptedintegrityprotecteddata.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.encryptedsessionkey.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.keymaterial.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.literaldata.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.marker.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.modificationdetectioncode.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.onepasssignature.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.signature.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.userattribute.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.userid.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.js"></script>
+
+    <!--  openpgp impl. -->
+    <script type="text/javascript" src="js/gpg4b-js/openpgp.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/openpgp.config.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/openpgp.keyring.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/openpgp.msg.message.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/openpgp.msg.privatekey.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/openpgp.msg.publickey.js"></script>
+    <script type="text/javascript" src="js/gpg4b-js/util.js"></script>
+    
+    
     <title>
       Facebook Social Keys
     </title>
