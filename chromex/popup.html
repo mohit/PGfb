@@ -6,8 +6,13 @@
     <link href="/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style type="text/css" media="screen">
-  body {
+      body {
         min-width: 770px;
+      }
+      
+      .highlighted {
+        color: green;
+        font-size: 180%;
       }
     </style>
     <script src="lib/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8">
@@ -39,6 +44,7 @@ $(function() {
       if (openpgp.keyring.publicKeys.length > 0) {
         var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
         $('#your-key-id').text(keyid);
+        $('#your-key').show();
       }
       else {
         $('#your-key').hide();
@@ -51,14 +57,17 @@ $(function() {
         
         openpgp.keyring.importPublicKey(keyString);
         openpgp.keyring.store();
+        
+        var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
+        $('#your-key-id').text(keyid);
+        $('#your-key').show();
+        $('#generate-key').hide();
+        
         return false;
       });
       
       $('#cancel').click(function(event) {
         console.log('cancel');
-        var keyString = $('#public-key').val();
-        
-        openpgp.keyring.importPublicKey(keyString);
         return false;
       });
     });
@@ -137,8 +146,8 @@ $(function() {
             Facebook Social Keys
             </h1>
           </div>
-          <div id="your-key">
-            Your public key is: <span class="key highlighted" id="your-key-id"></span>
+          <div id="your-key" style="display: none;">
+            Your public key is: <span class="label label-success" style="font-size: 120%;"><i class="icon-lock icon-white"></i> <span class="key" id="your-key-id"></span></span>
           </div>
           <div id="generate-key" style="display: none;">
             <h3>
