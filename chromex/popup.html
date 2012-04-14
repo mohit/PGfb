@@ -1,20 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
-<head>
-    <link href="/styles/css/styles.css" rel="stylesheet" type="text/css">
-    <script src="lib/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/base64.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/aes-enc.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/mouse.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/rsa.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/sha1.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/PGpubkey.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/PGencode.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/cast5.js" type="text/javascript" charset="utf-8"></script>
-    <script src="lib/PGdecode.js" type="text/javascript" charset="utf-8"></script>
-    <script src="scripts/pgfb.js" type="text/javascript" charset="utf-8"></script>
+  <head>
+    <!-- <link href="/css/styles.css" rel="stylesheet" type="text/css"> -->
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css" media="screen">
+  body {
+        min-width: 770px;
+      }
+    </style>
+    <script src="lib/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/base64.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/aes-enc.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/mouse.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/rsa.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/sha1.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/PGpubkey.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/PGencode.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/cast5.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="lib/PGdecode.js" type="text/javascript" charset="utf-8">
+</script>
+    <script src="js/pgfb.js" type="text/javascript" charset="utf-8">
+</script>
     <script type="text/javascript" charset="utf-8">
-    $(function() {
+$(function() {
       var keys = localStorage['keypairs'];
       if (keys && keys.length > 0) {
         $('#your-key-id').text(keys[0]['keyId']);
@@ -24,36 +43,65 @@
         $('#generate-key').show();
         $('#disabled-options').show();
       }
+      
+      $('#store-key').submit(function() {
+        var keyString = $('#public-key').value();
+      });
     });
     </script>
-</head>
-<body>
-  <h1>Facebook Social Keys</h1>
-  <div id="your-key">Your public key is: <span class="key highlighted" id="your-key-id"></span></div>
-  <div id="generate-key" style="display: none;">
-    <h2>Generate and distribute your public key</h2>
-    <p>Paste in your <a href="#">public key</a>:<br><textarea id="public-key"></textarea></p>
-    <input type="submit" value="Store this key" />
-  </div>
-  <div class="wrapper">
-    <div id="submit-keys">
-      <button>Connect to Facebook</button>
-      <button>Submit to the keyserver (MIT)</button>
+    <script src="js/bootstrap.js" type="text/javascript" charset="utf-8">
+</script>
+    <title>
+      Facebook Social Keys
+    </title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          <h1>
+            Facebook Social Keys
+          </h1>
+          <div id="your-key">
+            Your public key is: <span class="key highlighted" id="your-key-id"></span>
+          </div>
+          <div id="generate-key" style="display: none;">
+            <h2>
+              Generate your public key
+            </h2>
+            <form class="well">
+              <p>
+                Paste in your <a href="#">public key</a>:<br>
+                <textarea id="public-key">
+</textarea>
+              </p><input type="submit" id="store-key" value="Store this key">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid span12">
+        <h2>
+          Distribute your key
+        </h2>
+        <div class="span6">
+          <button>Connect to Facebook</button>
+        </div>
+        <div class="span6">
+          <button>Submit to the keyserver (MIT)</button>
+        </div>
+      </div>
+      <div class="row-fluid span12">
+        <div id="other-options" class="span6">
+          <h2>
+            Other options
+          </h2>
+        </div>
+        <div class="span6">
+          <h2>
+            Applications
+          </h2>
+        </div><!-- <div id="disabled-options" style="display: none;"></div> -->
+      </div>
     </div>
-    <div id="other-options">
-      <h2>Other options</h2>
-      <h2>Applications</h2>
-    </div>
-    <div id="disabled-options" style="display: none;"></div>
-  </div>
-  <!-- Public Key:<textarea id="public-key"></textarea>
-  Plain Text:<textarea id="plain-text"></textarea>
-  <input id="encrypt-button" type="submit" value="Encrypt"/>
-  <br/>
-  Cipher Text:<textarea id="cipher-text"></textarea>
-  Private Key: <textarea id="private-key"></textarea>
-  Password: <input id="password"></input>
-  Decrypted Plain Text:<textarea id="decrypted-plain-text"></textarea>
-  <input id="decrypt-button" type="submit" value="Decrypt"/> -->
-</body>
+  </body>
 </html>
