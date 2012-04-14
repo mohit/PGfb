@@ -1,7 +1,7 @@
 {
-  "name": "PGfb",
+  "name": "Facebook Social Keys",
   "version": "1",
-  "description": "Secure facebook communication using PGP.",
+  "description": "PGP Public Key distribution via your social network.",
   "browser_action": {
     "default_icon": "favicon.png",
     "popup": "popup.html"

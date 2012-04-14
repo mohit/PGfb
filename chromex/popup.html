@@ -13,10 +13,40 @@
     <script src="lib/cast5.js" type="text/javascript" charset="utf-8"></script>
     <script src="lib/PGdecode.js" type="text/javascript" charset="utf-8"></script>
     <script src="scripts/pgfb.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(function() {
+      var keys = localStorage['keypairs'];
+      if (keys && keys.length > 0) {
+        $('#your-key-id').text(keys[0]['keyId']);
+      }
+      else {
+        $('#your-key').hide();
+        $('#generate-key').show();
+        $('#disabled-options').show();
+      }
+    });
+    </script>
 </head>
 <body>
-  <h1>Pretty Good Facebook</h1>
-  Public Key:<textarea id="public-key"></textarea>
+  <h1>Facebook Social Keys</h1>
+  <div id="your-key">Your public key is: <span class="key highlighted" id="your-key-id"></span></div>
+  <div id="generate-key" style="display: none;">
+    <h2>Generate and distribute your public key</h2>
+    <p>Paste in your <a href="#">public key</a>:<br><textarea id="public-key"></textarea></p>
+    <input type="submit" value="Store this key" />
+  </div>
+  <div class="wrapper">
+    <div id="submit-keys">
+      <button>Connect to Facebook</button>
+      <button>Submit to the keyserver (MIT)</button>
+    </div>
+    <div id="other-options">
+      <h2>Other options</h2>
+      <h2>Applications</h2>
+    </div>
+    <div id="disabled-options" style="display: none;"></div>
+  </div>
+  <!-- Public Key:<textarea id="public-key"></textarea>
   Plain Text:<textarea id="plain-text"></textarea>
   <input id="encrypt-button" type="submit" value="Encrypt"/>
   <br/>
@@ -24,6 +54,6 @@
   Private Key: <textarea id="private-key"></textarea>
   Password: <input id="password"></input>
   Decrypted Plain Text:<textarea id="decrypted-plain-text"></textarea>
-  <input id="decrypt-button" type="submit" value="Decrypt"/>
+  <input id="decrypt-button" type="submit" value="Decrypt"/> -->
 </body>
 </html>

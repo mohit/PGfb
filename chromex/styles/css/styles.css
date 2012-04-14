@@ -1,24 +1,37 @@
 body {
     font-family: Helvetica Neue;
+    min-width: 400px;
+    max-width: 600px;
 }
-*{
+/**{
     background:#3B5998;
     color:#fff;
 }
-#encrypt-button, #decrypt-button {
-    display: block;
-    width: 80px;
-    margin: 10px auto;
+*/
+
+div {
+  margin: 20px;
 }
 
-#password, textarea {
-    border-color: 1px solid #1D2A5B;
-    color: #888;
-    background:#fff;
-    margin: 0 20px;
-    width: 600px;
+.disabled {
+  background: gray;
+  color: #222;
 }
 
-textarea{
-    height: 100px;
+#disabled-options {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+div.wrapper {
+  padding: 0px;
+  position: relative;
+}
+
+textarea {
+  width: 80%;
 }
