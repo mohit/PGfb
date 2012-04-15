@@ -19,7 +19,10 @@ PGfb consists of a Facebook application and a Chrome Extension. It uses the Java
 # Screenshots
 
 <img src="https://github.com/npdoty/socialkeys/raw/master/screenshots/facebook-view.png">
+
 Extension automatically highlights public key links visible on Facebook profiles.
 
+
 <img src="https://github.com/npdoty/socialkeys/raw/master/screenshots/extension-snap.png">
+
 The extension's own UI helps with submitting your public key to a keyserver.
