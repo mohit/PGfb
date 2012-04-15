@@ -79,7 +79,7 @@
             $('#submit-keyserver').click(function(event) {
                 var ascii = openpgp.keyring.publicKeys[0].armored;
         
-                $.post(keyserverpath,
+                $.post(keyserverpath + 'pks/add/',
                     {keytext: ascii},
                     function(xhr, textStatus){
                         console.log(xhr);
