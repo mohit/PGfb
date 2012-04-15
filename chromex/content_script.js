@@ -2,17 +2,6 @@ $(function() {
     jQuery('body').append('<div id="fb-root"></div>');
     jQuery('body').append('<div id="extensionListener">this is a invisible div</div>');
 
-    var encrypt_button = '<label class="uiButton uiButtonLarge"><input type="button" value="Encrypt" id="encrypt_button"></label>';
-        
-    $('a[href*="action=composerDialog"]').click(function(event) {
-        console.log('clicked New Message');
-        setTimeout( function() {
-            console.log('timer fired')
-            $('.pop_content .dialog_buttons').prepend(encrypt_button);
-        }, 1000);
-        return true;
-    });
-
     (function(d){
         var js, 
         id = 'facebook-jssdk', 
@@ -50,8 +39,6 @@ $(function() {
         };
         chrome.extension.onRequest.addListener(extensionListener);
     }(document));
-
-
 });
 
 
