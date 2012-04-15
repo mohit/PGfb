@@ -12,10 +12,12 @@
   }],
   "permissions": [
     "http://*.facebook.com/",
-    "http://developer.facebook.com/"
+    "http://developer.facebook.com/",
+    "http://pgp.mit.edu/*",
+    "http://keyserver.linux.it/*"
   ],
 	"content_scripts": [{
 		"matches": ["http://www.facebook.com/*", "https://www.facebook.com/*"],
-		"js": ["lib/jquery-1.4.2.min.js", "content_script.js"]
+		"js": ["lib/jquery-1.7.2.min.js", "content_script.js"]
 	}]
 }
