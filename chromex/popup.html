@@ -41,23 +41,15 @@
             $('#distribute-error').hide();
         }
 
-        $('#submit-keyserver').addClass('disabled');
-        $('#submit-keyserver').off('click'); // prevent accidental re-submissions
         function disableFacebookButton(){
-            console.log('disableFacebookButton');
             chrome.windows.getCurrent(
                 {populate: true},
                 function(win){ 
                     win.tabs.forEach(function(tab){
                         if (tab.active === true) {
-                            console.log(tab.url.match(/facebook.com/gi));
-                            if (tab.url.match(/facebook.com/gi)) {
-                                console.log(tab.url.match(/facebook.com/gi));
-                                $('#submit-keyserver').removeClass('disabled');
-                                $('#submit-keyserver').on('click'); // prevent accidental re-submissions
-                            } else {
-                                $('#submit-keyserver').addClass('disabled');
-                                $('#submit-keyserver').off('click'); // prevent accidental re-submissions
+                            if (! tab.url.match(/facebook.com/gi)) {
+                                $('#submit-facebook').addClass('disabled');
+                                $('#submit-facebook').off('click'); // prevent accidental submissions off of facebook
                             }
                         }
                     });
