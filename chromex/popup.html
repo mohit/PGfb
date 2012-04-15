@@ -19,111 +19,98 @@
         padding-bottom: 10px;
       }
     </style>
-    <script src="lib/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/base64.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/aes-enc.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/mouse.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/rsa.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/sha1.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/PGpubkey.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/PGencode.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/cast5.js" type="text/javascript" charset="utf-8">
-</script>
-    <script src="lib/PGdecode.js" type="text/javascript" charset="utf-8">
-</script>
+    <script src="lib/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/base64.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/aes-enc.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/mouse.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/rsa.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/sha1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/PGpubkey.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/PGencode.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/cast5.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/PGdecode.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
-    var keyserverpath = "http://keyserver.linux.it/"; // http://pgp.mit.edu:11371/
+        var keyserverpath = "http://keyserver.linux.it/"; // http://pgp.mit.edu:11371/
     
-    function disableKeyserverButton() {
-      $('#submit-keyserver').text('Submitted to keyserver');
-      $('#submit-keyserver').addClass('disabled');
-      $('#submit-keyserver').off('click'); // prevent accidental re-submissions
-      localStorage['keyserversubmitted'] = 'true';
+        function disableKeyserverButton() {
+            $('#submit-keyserver').text('Submitted to keyserver');
+            $('#submit-keyserver').addClass('disabled');
+            $('#submit-keyserver').off('click'); // prevent accidental re-submissions
+            localStorage['keyserversubmitted'] = 'true';
       
-      $('#distribute-error').hide();
-    }
-    
-    $(function() {
-      openpgp.init();
-            
-      if (openpgp.keyring.publicKeys.length > 0) {
-        var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
-        $('#your-key-id').text(keyid);
-        $('#your-key').show();
-        
-        if (localStorage['keyserversubmitted'] == 'true') {
-          disableKeyserverButton();
-          var keyserverKeyPath = keyserverpath + '/pks/lookup?op=get&search=' + keyid;
-          $('#keyserverKeyPath').text(keyserverKeyPath)
-          $('#keyserverPathUrl').show();
+            $('#distribute-error').hide();
         }
-      }
-      else {
-        $('#your-key').hide();
-        $('#generate-key').show();
-        $('#disabled-options').show();
-      }
-            
-      $('#public-key-form').submit(function() {
-        var keyString = $('#public-key').val();
+    
+        $(function() {
+            openpgp.init();
+            if (openpgp.keyring.publicKeys.length > 0) {
+                var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
+                $('#your-key-id').text(keyid);
+                $('#your-key').show();
         
-        openpgp.keyring.importPublicKey(keyString);
-        openpgp.keyring.store();
-        
-        var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
-        $('#your-key-id').text(keyid);
-        $('#your-key').show();
-        $('#generate-key').hide();
-        
-        return false;
-      });
-      
-      $('#cancel').click(function(event) {
-        console.log('cancel');  // not yet implemented ;)
-        return false;
-      });
-      
-      $('#submit-keyserver').click(function(event) {
-        var ascii = openpgp.keyring.publicKeys[0].armored;
-        
-        $.post(keyserverpath,{keytext: ascii},
-         function(xhr, textStatus){
-           console.log(xhr);
-           disableKeyserverButton();
-        }).error(function(xhr, textStatus, errorThrown) {
-          console.log(xhr);
-          console.log(textStatus);
-          console.log(errorThrown);
-          
-          $('#distribute-error').text('There was an error: ' + xhr.status + ' ' + textStatus + '.');
-          $('#distribute-error').show();
-        });;
-        
-        return false;
-      });
-
-
-        $('#submit-facebook').click(function(event) {
-            chrome.windows.getCurrent(
-                {populate: true},
-                function(win){ 
-                    win.tabs.forEach(function(tab){
-                        if (tab.active === true){
-                            chrome.tabs.sendRequest(tab.id, {pgpkey: 'www.go.to'},function(r){});
-                        }
-                    });
+                if (localStorage['keyserversubmitted'] == 'true') {
+                    disableKeyserverButton();
+                    var keyserverKeyPath = keyserverpath + '/pks/lookup?op=get&search=' + keyid;
+                    $('#keyserverKeyPath').text(keyserverKeyPath)
+                    $('#keyserverPathUrl').show();
                 }
-            );
+            } else {
+                $('#your-key').hide();
+                $('#generate-key').show();
+                $('#disabled-options').show();
+            }
+            $('#public-key-form').submit(function() {
+                var keyString = $('#public-key').val();
+                openpgp.keyring.importPublicKey(keyString);
+                openpgp.keyring.store();
+
+                var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
+                $('#your-key-id').text(keyid);
+                $('#your-key').show();
+                $('#generate-key').hide();
+                return false;
+            });
+      
+            $('#cancel').click(function(event) {
+                console.log('cancel');  // not yet implemented ;)
+                return false;
+            });
+      
+            $('#submit-keyserver').click(function(event) {
+                var ascii = openpgp.keyring.publicKeys[0].armored;
+        
+                $.post(keyserverpath,
+                    {keytext: ascii},
+                    function(xhr, textStatus){
+                        console.log(xhr);
+                        disableKeyserverButton();
+                    }
+                ).error(function(xhr, textStatus, errorThrown) {
+                    console.log(xhr);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+      
+                    $('#distribute-error').text('There was an error: ' + xhr.status + ' ' + textStatus + '.');
+                    $('#distribute-error').show();
+                });
+        
+                return false;
+            });
+
+
+            $('#submit-facebook').click(function(event) {
+                chrome.windows.getCurrent(
+                    {populate: true},
+                    function(win){ 
+                        win.tabs.forEach(function(tab){
+                            if (tab.active === true){
+                                chrome.tabs.sendRequest(tab.id, {pgpkey: 'www.go.to'},function(r){});
+                            }
+                        });
+                    }
+                );
+            });
         });
-    });
     </script>
     <script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
 
@@ -176,7 +163,8 @@
     <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.userid.js"></script>
     <script type="text/javascript" src="js/gpg4b-js/packet/openpgp.packet.js"></script>
 
-    <!--  openpgp impl. -->
+
+    <!--  openpgp impl. -->     
     <script type="text/javascript" src="js/gpg4b-js/openpgp.js"></script>
     <script type="text/javascript" src="js/gpg4b-js/openpgp.config.js"></script>
     <script type="text/javascript" src="js/gpg4b-js/openpgp.keyring.js"></script>
@@ -184,7 +172,6 @@
     <script type="text/javascript" src="js/gpg4b-js/openpgp.msg.privatekey.js"></script>
     <script type="text/javascript" src="js/gpg4b-js/openpgp.msg.publickey.js"></script>
     <script type="text/javascript" src="js/gpg4b-js/util.js"></script>
-    
     
     <title>
       Facebook Social Keys
@@ -210,20 +197,17 @@
             Your public key is: <span class="label label-success" style="font-size: 120%;"><i class="icon-lock icon-white"></i> <span class="key" id="your-key-id"></span></span>
           </div>
           <div id="generate-key" style="display: none;">
-            <h3>
-              Generate your public key
-            </h3>
+            <h3>Generate your public key</h3>
             <form class="form-horizontal" id="public-key-form">
               <div class="control-group">
                 <label class="control-label" for="public-key">Your public key</label>
                 <div class="controls">
-                  <textarea id="public-key" class="input-xlarge" rows="8">
-                  </textarea>
+                  <textarea id="public-key" class="input-xlarge" ></textarea>
                   <p class="help-block">Paste in your PGP key, in its ASCII-armored format.</p>
                 </div>
               </div>
               <div class="form-actions">
-                <input type="submit" id="store-key" class="btn btn-primary" value="Store this key">
+                <input type="submit" id="store-key" class="btn btn-primary" value="Store this key"></input>
                 <button class="btn" id="cancel">Cancel</button>
               </div>
             </form>
