@@ -110,10 +110,19 @@
         return false;
       });
 
-      $('#submit-facebook').click(function(event) {
-        chrome.tabs.executeScript(null, {code:"console.log('in the click handler');"});
-      });
 
+        $('#submit-facebook').click(function(event) {
+            chrome.windows.getCurrent(
+                {populate: true},
+                function(win){ 
+                    win.tabs.forEach(function(tab){
+                        if (tab.active === true){
+                            chrome.tabs.sendRequest(tab.id, {pgpkey: 'www.go.to'},function(r){});
+                        }
+                    });
+                }
+            );
+        });
     });
     </script>
     <script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>

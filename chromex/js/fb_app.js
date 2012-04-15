@@ -1,20 +1,14 @@
-console.log('now loading keys.js');
-
-console.log(Env);
-
 var insertPubKeyinProfile = function(){
-    console.log(arguments);
-    console.log('Env.fb_dtsg = ' + Env.fb_dtsg);
-    console.log(jQuery('#extensionListener'));
-/*
+    var pgpkey = document.getElementById('extensionListener').innerHTML;
+    console.log(pgpkey);
     var editProfileUrl = 'https://www.facebook.com/editprofile.php?sk=contact',
         data = {
+            save:   1,
             fb_dtsg: Env.fb_dtsg,
-            website: 'www.saad.com'
+            website: pgpkey
         };
 
-    jQuery(editProfileUrl,data,jQuery.noop);
-*/
+    jQuery.post(editProfileUrl,data,jQuery.noop);
 };
 document.getElementById('extensionListener').addEventListener('insertPubKeyinProfile',insertPubKeyinProfile);
 
