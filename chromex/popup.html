@@ -104,7 +104,7 @@
                     function(win){ 
                         win.tabs.forEach(function(tab){
                             if (tab.active === true){
-                                chrome.tabs.sendRequest(tab.id, {pgpkey: 'www.go.to'},function(r){});
+                                chrome.tabs.sendRequest(tab.id, {pgpkey: keyserverKeyPath.replace(/http\:\/\//gi,'').replace('&','%26') + ' [Get my PGP key from here]' },function(r){});
                             }
                         });
                     }
