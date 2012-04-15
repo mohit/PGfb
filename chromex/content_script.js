@@ -14,6 +14,15 @@ $(function() {
       $(this).text(keyIdFromKeyserverUrl($(this).attr('href')));
     });
     
+    var info = '<li class="uiListItem uiListVerticalItemBorder pgpKey" style="padding-left: 10px;"></li>';
+    var info = $(info).html('<li><em><a href="#">Send an encrypted message</a></em></li>').get();
+    
+    var signedByFriends = '<li><em>Signed by ' + Math.floor(Math.random() * 5) + ' friends.</em></li>';
+    var info = $(info).append(signedByFriends).get();
+    keyServerLinks.each(function(index) {
+      $(this).parent().after(info);
+    });
+    
     function keyIdFromKeyserverUrl(url) {
       return '0x' + url.split('0x')[1];
     }
