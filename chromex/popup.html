@@ -50,7 +50,7 @@
         
                 if (localStorage['keyserversubmitted'] == 'true') {
                     disableKeyserverButton();
-                    var keyserverKeyPath = keyserverpath + '/pks/lookup?op=get&search=' + '0x' + keyid;
+                    var keyserverKeyPath = keyserverpath + 'pks/lookup?op=get&search=' + '0x' + keyid;
                     $('#keyserverKeyPath').text(keyserverKeyPath)
                     $('#keyserverPathUrl').show();
                 }
