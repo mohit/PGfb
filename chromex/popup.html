@@ -41,22 +41,33 @@
             $('#distribute-error').hide();
         }
 
-        var disableFacebookButton = function(){
+        $('#submit-keyserver').addClass('disabled');
+        $('#submit-keyserver').off('click'); // prevent accidental re-submissions
+        function disableFacebookButton(){
+            console.log('disableFacebookButton');
             chrome.windows.getCurrent(
                 {populate: true},
                 function(win){ 
                     win.tabs.forEach(function(tab){
-                        if (tab.active === true && tab.url.match(/facebook.com/gi) == null){
-                            $('#submit-facebook').addClass('disabled');
-                            $('#submit-facebook').off('click'); // prevent accidental re-submissions
+                        if (tab.active === true) {
+                            console.log(tab.url.match(/facebook.com/gi));
+                            if (tab.url.match(/facebook.com/gi)) {
+                                console.log(tab.url.match(/facebook.com/gi));
+                                $('#submit-keyserver').removeClass('disabled');
+                                $('#submit-keyserver').on('click'); // prevent accidental re-submissions
+                            } else {
+                                $('#submit-keyserver').addClass('disabled');
+                                $('#submit-keyserver').off('click'); // prevent accidental re-submissions
+                            }
                         }
                     });
                 }
             );
-        }();
+        }
 
         $(function() {
             openpgp.init();
+            disableFacebookButton();
             if (openpgp.keyring.publicKeys.length > 0) {
                 var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
                 $('#your-key-id').text(keyid);
