@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
   <head>
@@ -8,6 +9,11 @@
     <style type="text/css" media="screen">
       body {
         min-width: 770px;
+      }
+      
+      .highlighted {
+        color: green;
+        font-size: 180%;
       }
     </style>
     <script src="lib/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8">
@@ -69,6 +75,7 @@ $(function() {
         
         $.post('http://keyserver.linux.it/pks/add',{
          keytext: ascii},
+         
          function(xhr, textStatus){
            console.log(xhr);
            console.log(xhr.status);
@@ -86,6 +93,11 @@ $(function() {
         
         return false;
       });
+
+      $('#submit-facebook').click(function(event) {
+        chrome.tabs.executeScript(null, {code:"console.log('in the click handler');"});
+      });
+
     });
     </script>
     <script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
