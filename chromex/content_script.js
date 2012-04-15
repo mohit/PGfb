@@ -1,6 +1,22 @@
 $(function() {
     jQuery('body').append('<div id="fb-root"></div>');
     jQuery('body').append('<div id="extensionListener">this is a invisible div</div>');
+    
+    // look for keyserver links
+    var keyServerLinks = $('a[href^="http://keyserver"]');
+    var iconUrl = chrome.extension.getURL("img/glyphicons_203_lock.png");
+    var icon = document.createElement('img');
+    icon.src = iconUrl;
+    $(icon).attr('height', '10px');
+    $(icon).css('padding-right', '5px');
+    keyServerLinks.before(icon);
+    keyServerLinks.each(function(index) {
+      $(this).text(keyIdFromKeyserverUrl($(this).attr('href')));
+    });
+    
+    function keyIdFromKeyserverUrl(url) {
+      return '0x' + url.split('0x')[1];
+    }
 
     (function(d){
         var js, 
