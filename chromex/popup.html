@@ -9,11 +9,6 @@
       body {
         min-width: 770px;
       }
-      
-      .highlighted {
-        color: green;
-        font-size: 180%;
-      }
     </style>
     <script src="lib/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8">
 </script>
@@ -38,9 +33,7 @@
     <script type="text/javascript" charset="utf-8">
 $(function() {
       openpgp.init();
-      
-      //console.log(openpgp.keyring);
-      
+            
       if (openpgp.keyring.publicKeys.length > 0) {
         var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
         $('#your-key-id').text(keyid);
@@ -76,10 +69,19 @@ $(function() {
         
         $.post('http://keyserver.linux.it/pks/add',{
          keytext: ascii},
-         function(){
-            //stuff to do *after* page is loaded;
-        }).error(function() {
+         function(xhr, textStatus){
+           console.log(xhr);
+           console.log(xhr.status);
+           $('#submit-keyserver').text('Submitted to keyserver');
+           $('#submit-keyserver').addClass('disabled');
+           
+        }).error(function(xhr, textStatus, errorThrown) {
+          console.log(xhr);
+          console.log(textStatus);
+          console.log(errorThrown);
           
+          $('#distribute-error').text('There was an error: ' + xhr.status + ' ' + textStatus + '.');
+          $('#distribute-error').show();
         });;
         
         return false;
@@ -189,6 +191,7 @@ $(function() {
           <h2>
             Distribute your key
           </h2>
+          <div class="alert alert-error" id="distribute-error" style="display: none;"></div>
           <button class="btn span4" id="submit-facebook">Connect to Facebook</button>
           <button class="btn span4" id="submit-keyserver">Submit to Keyserver</button>
         </div>
@@ -200,7 +203,7 @@ $(function() {
               <h2>
                 Other options
               </h2>
-              <p><a href="#">Copy my private key</a> <br><em>(keep this secret and save it in a safe place on your computer)</em></p>
+              <p><a href="#">Copy your private key</a> <br><em>(keep this secret and save it in a safe place on your computer)</em></p>
             </div>
             <div class="span6">
               <h2>
