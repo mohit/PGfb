@@ -40,7 +40,21 @@
       
             $('#distribute-error').hide();
         }
-    
+
+        var disableFacebookButton = function(){
+            chrome.windows.getCurrent(
+                {populate: true},
+                function(win){ 
+                    win.tabs.forEach(function(tab){
+                        if (tab.active === true && tab.url.match(/facebook.com/gi) == null){
+                            $('#submit-facebook').addClass('disabled');
+                            $('#submit-facebook').off('click'); // prevent accidental re-submissions
+                        }
+                    });
+                }
+            );
+        }();
+
         $(function() {
             openpgp.init();
             if (openpgp.keyring.publicKeys.length > 0) {
