@@ -9,11 +9,14 @@
     <style type="text/css" media="screen">
       body {
         min-width: 770px;
+      }      
+      span.link {
+        font-style: italic;
+        color: blue;
       }
-      
-      .highlighted {
-        color: green;
-        font-size: 180%;
+      h3 {
+        padding-top: 20px;
+        padding-bottom: 10px;
       }
     </style>
     <script src="lib/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8">
@@ -37,20 +40,38 @@
     <script src="lib/PGdecode.js" type="text/javascript" charset="utf-8">
 </script>
     <script type="text/javascript" charset="utf-8">
-$(function() {
+    var keyserverpath = "http://keyserver.linux.it/"; // http://pgp.mit.edu:11371/
+    
+    function disableKeyserverButton() {
+      $('#submit-keyserver').text('Submitted to keyserver');
+      $('#submit-keyserver').addClass('disabled');
+      $('#submit-keyserver').off('click'); // prevent accidental re-submissions
+      localStorage['keyserversubmitted'] = 'true';
+      
+      $('#distribute-error').hide();
+    }
+    
+    $(function() {
       openpgp.init();
             
       if (openpgp.keyring.publicKeys.length > 0) {
         var keyid = util.hexstrdump(openpgp.keyring.publicKeys[0].obj.getKeyId());
         $('#your-key-id').text(keyid);
         $('#your-key').show();
+        
+        if (localStorage['keyserversubmitted'] == 'true') {
+          disableKeyserverButton();
+          var keyserverKeyPath = keyserverpath + '/pks/lookup?op=get&search=' + keyid;
+          $('#keyserverKeyPath').text(keyserverKeyPath)
+          $('#keyserverPathUrl').show();
+        }
       }
       else {
         $('#your-key').hide();
         $('#generate-key').show();
         $('#disabled-options').show();
       }
-      
+            
       $('#public-key-form').submit(function() {
         var keyString = $('#public-key').val();
         
@@ -66,22 +87,17 @@ $(function() {
       });
       
       $('#cancel').click(function(event) {
-        console.log('cancel');
+        console.log('cancel');  // not yet implemented ;)
         return false;
       });
       
       $('#submit-keyserver').click(function(event) {
         var ascii = openpgp.keyring.publicKeys[0].armored;
         
-        $.post('http://keyserver.linux.it/pks/add',{
-         keytext: ascii},
-         
+        $.post(keyserverpath,{keytext: ascii},
          function(xhr, textStatus){
            console.log(xhr);
-           console.log(xhr.status);
-           $('#submit-keyserver').text('Submitted to keyserver');
-           $('#submit-keyserver').addClass('disabled');
-           
+           disableKeyserverButton();
         }).error(function(xhr, textStatus, errorThrown) {
           console.log(xhr);
           console.log(textStatus);
@@ -174,6 +190,13 @@ $(function() {
             Facebook Social Keys
             </h1>
           </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span12">
+          <h3>
+            Your public key
+          </h3>
           <div id="your-key" style="display: none;">
             Your public key is: <span class="label label-success" style="font-size: 120%;"><i class="icon-lock icon-white"></i> <span class="key" id="your-key-id"></span></span>
           </div>
@@ -200,27 +223,28 @@ $(function() {
       </div>
       <div class="row-fluid">
         <div class="span12">
-          <h2>
+          <h3>
             Distribute your key
-          </h2>
+          </h3>
           <div class="alert alert-error" id="distribute-error" style="display: none;"></div>
-          <button class="btn span4" id="submit-facebook">Connect to Facebook</button>
+          <div class="well" id="keyserverPathUrl" style="display: none;">Share this URL of your key path: <span class="link" id="keyserverKeyPath"></span></div>
           <button class="btn span4" id="submit-keyserver">Submit to Keyserver</button>
+          <button class="btn span4" id="submit-facebook">Connect to Facebook</button>
         </div>
       </div>
       <div class="row-fluid">
         <div class="span12">
           <div class="row-fluid">
             <div id="other-options" class="span6">
-              <h2>
+              <h3>
                 Other options
-              </h2>
-              <p><a href="#">Copy your private key</a> <br><em>(keep this secret and save it in a safe place on your computer)</em></p>
+              </h3>
+              <p><a href="#">Copy your private key</a> <br><em>(keep this secret in a safe place on your computer)</em></p>
             </div>
             <div class="span6">
-              <h2>
+              <h3>
                 Applications
-              </h2>
+              </h3>
               <ul>
                 <li><a href="http://www.gnupg.org/">GnuPG</a></li>
                 <li><a href="http://www.gpgtools.org/">GPGTools</a></li>
