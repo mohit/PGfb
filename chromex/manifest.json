@@ -11,13 +11,13 @@
       "js": ["lib/jquery-1.4.2.min.js", "content_script.js", "lib/fb.all.js"]
   }],
   "permissions": [
-    "http://*.facebook.com/",
-    "http://developer.facebook.com/",
-    "http://pgp.mit.edu/*",
-    "http://keyserver.linux.it/*"
+    "tabs",
+    "*://*.facebook.com/",
+    "*://developer.facebook.com/"
   ],
-	"content_scripts": [{
-		"matches": ["http://www.facebook.com/*", "https://www.facebook.com/*"],
-		"js": ["lib/jquery-1.7.2.min.js", "content_script.js"]
-	}]
+    "content_scripts": [{
+        "matches": ["http://www.facebook.com/*", "https://www.facebook.com/*"],
+        "js": ["lib/jquery-1.4.2.min.js", "content_script.js"]
+    }]
 }
+
