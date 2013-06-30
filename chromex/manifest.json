@@ -1,7 +1,7 @@
 {
-  "name": "PGfb",
+  "name": "Facebook Social Keys",
   "version": "1",
-  "description": "Secure facebook communication using PGP.",
+  "description": "PGP Public Key distribution via your social network.",
   "browser_action": {
     "default_icon": "favicon.png",
     "popup": "popup.html"
@@ -11,11 +11,15 @@
       "js": ["lib/jquery-1.4.2.min.js", "content_script.js", "lib/fb.all.js"]
   }],
   "permissions": [
-    "http://*.facebook.com/",
-    "http://developer.facebook.com/"
+    "tabs",
+    "*://*.facebook.com/",
+    "*://developer.facebook.com/",
+    "http://keyserver.linux.it/",
+    "http://pgp.mit.edu/"
   ],
-	"content_scripts": [{
-		"matches": ["http://www.facebook.com/*", "https://www.facebook.com/*"],
-		"js": ["lib/jquery-1.4.2.min.js", "content_script.js"]
-	}]
+    "content_scripts": [{
+        "matches": ["http://www.facebook.com/*", "https://www.facebook.com/*"],
+        "js": ["lib/jquery-1.7.2.min.js", "content_script.js"]
+    }]
 }
+
